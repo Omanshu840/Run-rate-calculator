@@ -1,6 +1,17 @@
 import React, { useState } from 'react'
 import { Button, Form } from 'react-bootstrap'
 
+function evalString(str) {
+    if(str) {
+        let numbers = str.split(/\+|\-|\*|\//);
+        let sum = 0;
+        numbers.forEach(number => {
+            sum += parseFloat(number);
+        })
+        return sum.toString();
+    }
+}
+
 const AddTeam = (props) => {
 
     const {onSubmit, onCancel, teamData} = props;
@@ -13,9 +24,20 @@ const AddTeam = (props) => {
         }
         newData = {
             ...newData,
-            runRate: newData.run/newData.overs - newData.runAgainst/newData.oversAgainst
+            runRate: evalString(newData.run)/evalString(newData.overs) - evalString(newData.runAgainst)/evalString(newData.oversAgainst)
         }
         setData(newData);
+    }
+
+    const onSubmitClick = () => {
+        const submitData = {
+            ...data,
+            run: evalString(data.run),
+            overs: evalString(data.overs),
+            runAgainst: evalString(data.runAgainst),
+            oversAgainst: evalString(data.oversAgainst)
+        }
+        onSubmit(submitData);
     }
 
     return (
@@ -39,7 +61,7 @@ const AddTeam = (props) => {
                 <Form.Control type="text" value={data.runRate} disabled/>
             </div>
             <div className='col-12' style={{display: 'flex', justifyContent: 'space-around'}}>
-                <Button variant="primary" onClick={() => onSubmit(data)}>Submit</Button>
+                <Button variant="primary" onClick={onSubmitClick}>Submit</Button>
                 <Button variant='danger' onClick={onCancel}>Cancel</Button>
             </div>
         </div>
