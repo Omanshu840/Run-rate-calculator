@@ -1,13 +1,74 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+.light-mode {
+    --baseColor: white;
+    --priColor1: #F5FCFF;
+    --priColor2: #C9EEFF;
+    --secColor1: #00235B;
+    --btnColor: #0E6DFD;
+    --borderColor: #ced4da;
+    --shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.dark-mode {
+    --baseColor: #121212;
+    --priColor1: #222831;
+    --priColor2: #393E46;
+    --secColor1: #05C5C0;
+    --btnColor: #797A7F;
+    --borderColor: #6a6c6e;
+    --shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: var(--priColor1);
+    color: var(--secColor1);
+    margin-bottom: 50px;
+}
+
+.app {
+    text-align: center;
+}
+
+.team-container {
+    box-shadow: var(--shadow);
+    background: var(--priColor2);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.team {
+    display: flex;
+    justify-content: space-around;
+}
+
+.team-pair {
+    display: flex;
+    flex-direction: column;
+}
+
+.field-value {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.add-team {
+    background-color: var(--baseColor);
+    box-shadow: var(--shadow);
+    border-radius: 10px;
+}
+
+input {
+    text-align: center;
+}
+
+.btn-add-team {
+    font-size: 20px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-right: 10px;
+    padding-left: 10px;
 }
