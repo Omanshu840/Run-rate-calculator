@@ -4,10 +4,12 @@ import { Button } from 'react-bootstrap';
 import TeamRunRate from './TeamRunRate';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
+import AddMatch from './AddMatch';
 
 const App = () => {
     const [addTeam, setAddTeam] = useState(false);
     const [teams, setTeams] = useState();
+    const [addMatch, setAddMatch] = useState(false);
 
     useEffect(() => {
         if(window.matchMedia('(prefers-color-scheme: dark)').matches) {
@@ -48,12 +50,27 @@ const App = () => {
         setAddTeam(false);
         setTeams(teams)
     }
+
+    const onAddMatch = (teamsData) => {
+        setTeams(teamsData);
+        localStorage.setItem('teams', JSON.stringify(teamsData));
+    }
+
+    const getSortedTeams = (teams) => {
+        let sortedTeams = teams;
+        sortedTeams.sort((a, b) => {
+            return b.runRate - a.runRate;
+        })
+        return sortedTeams;
+    }
+    
     return (
         <div className='app col-md-4 p-4'>
+            <AddMatch addMatch={addMatch} setAddMatch={setAddMatch} teams={teams} onAddMatch={onAddMatch}/>
             {teams && 
                 <>
-                    {teams.map(team => {
-                        return <TeamRunRate {...team}/>
+                    {getSortedTeams(teams).map(team => {
+                        return <TeamRunRate {...team} setTeams={setTeams}/>
                     })}
                 </>
             }

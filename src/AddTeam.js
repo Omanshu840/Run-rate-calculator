@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Form } from 'react-bootstrap'
 
 function evalString(str) {
@@ -16,6 +16,10 @@ const AddTeam = (props) => {
 
     const {onSubmit, onCancel, teamData} = props;
     const [data, setData] = useState(teamData);
+
+    useEffect(() => {
+        setData(props.teamData);
+    }, [props.teamData])
 
     const onChange = (field, value) => {
         let newData = {

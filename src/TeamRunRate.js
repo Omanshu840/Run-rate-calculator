@@ -1,10 +1,14 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import AddTeam from './AddTeam';
 
 const TeamRunRate = (props) => {
 
     const [data, setData] = useState(props);
     const [isEdit, setEdit] = useState(false);
+
+    useEffect(() => {
+        setData(props);
+    }, [props])
 
     const onSubmit = (teamData) => {
         let teams = localStorage.getItem('teams');
@@ -18,6 +22,7 @@ const TeamRunRate = (props) => {
             }
         }
         localStorage.setItem('teams', JSON.stringify(teams));
+        props.setTeams(teams);
         setData(teamData)
         setEdit(false);
     }
@@ -43,11 +48,11 @@ const TeamRunRate = (props) => {
                     <div className='team-pair'>
                         <div className='field-value'>
                             <b>Overs</b> 
-                            <div>{overs}</div>
+                            <div>{parseFloat(overs).toPrecision(4)}</div>
                         </div>
                         <div className='field-value'>
                             <b>Overs</b> 
-                            <div>{oversAgainst}</div>
+                            <div>{parseFloat(oversAgainst).toPrecision(4)}</div>
                         </div>
                     </div>
                 </div>

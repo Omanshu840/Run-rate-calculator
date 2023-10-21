@@ -72,3 +72,8 @@ input {
     padding-right: 10px;
     padding-left: 10px;
 }
+
+.btn-primary {
+    background-color: var(--btnColor);
+    border-color: var(--btnColor);
+}
