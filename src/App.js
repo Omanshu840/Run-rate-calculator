@@ -5,6 +5,8 @@ import TeamRunRate from './TeamRunRate';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import AddMatch from './AddMatch';
+import { fetchStandings } from './services';
+import TeamCards from './TeamCards';
 
 const App = () => {
     const [addTeam, setAddTeam] = useState(false);
@@ -18,7 +20,7 @@ const App = () => {
           else {
             document.body.classList.add("light-mode")
           }
-      
+
           window.matchMedia('(prefers-color-scheme: dark)')
             .addEventListener('change', event => {
               if(event.matches) {
@@ -29,7 +31,7 @@ const App = () => {
                 document.body.classList.add("light-mode")
                 document.body.classList.remove("dark-mode")
               }
-      
+
             });
 
         let teams = localStorage.getItem('teams');
@@ -37,6 +39,14 @@ const App = () => {
             teams = JSON.parse(teams);
             setTeams(teams);
         }
+
+        const fetchStandingsData = async () => {
+            const teams = await fetchStandings();
+            console.log(teams);
+            setTeams(teams);
+        }
+
+        fetchStandingsData();
     }, [])
 
     const onSubmit = (teamData) => {
@@ -63,15 +73,16 @@ const App = () => {
         })
         return sortedTeams;
     }
-    
+
     return (
         <div className='app col-md-4 p-4'>
             <AddMatch addMatch={addMatch} setAddMatch={setAddMatch} teams={teams} onAddMatch={onAddMatch}/>
-            {teams && 
+            {teams &&
                 <>
-                    {getSortedTeams(teams).map(team => {
+                    <TeamCards teams={teams}/>
+                    {/* {getSortedTeams(teams).map(team => {
                         return <TeamRunRate {...team} setTeams={setTeams}/>
-                    })}
+                    })} */}
                 </>
             }
             {addTeam && <AddTeam onSubmit={onSubmit} onCancel={() => setAddTeam(false)} teamData={{}}/>}

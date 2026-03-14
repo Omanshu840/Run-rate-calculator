@@ -46,9 +46,38 @@ const AddMatch = (props) => {
                     newTeams[t] = currTeam;
                 }
             }
+        } else if(!(team1 && team1.length) && !(team2 && team2.length)) {
+            let newTeam1 = {
+                name: match.team1,
+                overs: match.overs1,
+                oversAgainst: match.overs2,
+                run: match.runs1,
+                runAgainst: match.runs2,
+                runRate: match.runs1/match.overs1 - match.runs2/match.overs2
+            }
+            let newTeam2 = {
+                name: match.team2,
+                overs: match.overs1,
+                oversAgainst: match.overs2,
+                run: match.runs1,
+                runAgainst: match.runs2,
+                runRate: match.runs2/match.overs2 - match.runs1/match.overs1
+            }
+            newTeams.push(newTeam1);
+            newTeams.push(newTeam2);
         }
         onAddMatch(newTeams);
         setAddMatch(false);
+    }
+
+    const getRunRate = (teamName, runs1, overs1, runs2, overs2) => {
+        let team = teams.filter(team => team.name === teamName);
+        if(team && team.length) {
+            let currTeam = team[0];
+            const runRate = evalString(`${currTeam.run}+${runs1}`)/evalString(`${currTeam.overs}+${overs1}`) - evalString(`${currTeam.runAgainst}+${runs2}`)/evalString(`${currTeam.oversAgainst}+${overs2}`);
+            return (runRate) ? runRate.toPrecision(4) : "";
+        }
+        return "";
     }
 
     if(addMatch) {
@@ -71,6 +100,12 @@ const AddMatch = (props) => {
                 </div>
                 <div className='col-6 p-2'>
                     <Form.Control type="text" placeholder='Overs' value={match.overs2} onChange={(e) => onChange("overs2", e.target.value)}/>
+                </div>
+                <div className='col-6 p-2'>
+                    <Form.Control type="text" placeholder='Run Rate' value={getRunRate(match.team1, match.runs1, match.overs1, match.runs2, match.overs2)} disabled/>
+                </div>
+                <div className='col-6 p-2'>
+                    <Form.Control type="text" placeholder='Run Rate' value={getRunRate(match.team2, match.runs2, match.overs2, match.runs1, match.overs1)} disabled/>
                 </div>
                 <div className='col-12 mt-2' style={{display: 'flex', justifyContent: 'space-between'}}>
                     <Button variant="primary" onClick={onSubmitClick}>Submit</Button>
