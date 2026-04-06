@@ -5,6 +5,7 @@ import { defineConfig } from "vite"
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: "/Run-rate-calculator/",
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: {

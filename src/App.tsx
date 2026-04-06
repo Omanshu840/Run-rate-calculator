@@ -1,21 +1,36 @@
-import { Button } from "@/components/ui/button"
+import { useEffect, useState } from "react";
+import { fetchStandings } from "./utils/jsonp";
+import type { StandingsData } from "./utils/jsonp";
+import StandingsTable from "./components/StandingsTable";
+import Simulator from "./components/Simulator";
+import NRRChart from "./components/NRRChart";
 
-export function App() {
+export default function App() {
+  const [teams, setTeams] = useState<StandingsData["points"]>([]);
+
+  useEffect(() => {
+    fetchStandings().then((data: StandingsData) => {
+      setTeams(data.points);
+    });
+  }, []);
+
   return (
-    <div className="flex min-h-svh p-6">
-      <div className="flex max-w-md min-w-0 flex-col gap-4 text-sm leading-loose">
-        <div>
-          <h1 className="font-medium">Project ready!</h1>
-          <p>You may now add components and start building.</p>
-          <p>We&apos;ve already added the button component for you.</p>
-          <Button className="mt-2">Button</Button>
+    <div className="min-h-screen p-6">
+      <div className="max-w-7xl mx-auto space-y-8">
+        <div className="text-center">
+          <h1 className="text-5xl font-bold">NRR Simulator</h1>
+          <p className="text-slate-400">IPL 2026</p>
         </div>
-        <div className="font-mono text-xs text-muted-foreground">
-          (Press <kbd>d</kbd> to toggle dark mode)
+
+        <div className="grid lg:grid-cols-3 gap-6">
+          <div className="lg:col-span-2">
+            <StandingsTable teams={teams} />
+          </div>
+          <Simulator teams={teams} />
         </div>
+
+        <NRRChart teams={teams} />
       </div>
     </div>
-  )
+  );
 }
-
-export default App
